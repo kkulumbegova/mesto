@@ -1,0 +1,16 @@
+.popup__submit {
+  background-color: #000000;
+  color: #FFFFFF;
+  width: 358px;
+  height: 50px;
+  box-sizing: border-box;
+  margin: auto;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 440px){  
+  .popup__submit {
+      width: 238px;
+      height: 46px;
+  }
+}
