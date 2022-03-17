@@ -1,6 +1,6 @@
 .cards {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fill, 282px);
     gap: 20px 17px;
     border-radius: 5%;
     margin: 0;
@@ -9,8 +9,11 @@
     list-style-type: none;
 }
 
-@media screen and (max-width: 440px){  
+
+@media screen and (max-width: 540px){  
     .cards {
+        padding-left: 19px;
+        padding-right: 19px;
         grid-template-columns: 1fr;
         margin-bottom: 50px;
     }

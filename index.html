@@ -13,80 +13,79 @@
       <img src="img/logo.svg" alt="Логотип" class="header__logo">
     </header>
     <main>
-      <section class="profile section section_narrow">
-        <img src="img/image.jpg" alt="Аватар пользователя" class="profile__avatar">
+      <section class="profile">
+        <div class="profile__avatar"></div>
           <h1 class="profile__name">Жак-Ив Кусто</h1>
-          <button class="profile__editButton btn btn_hover"></button>
+          <button type="button" class="profile__editButton"></button>
           <h2 class="profile__description">Исследователь океана</h2>
-             <button class="profile__addButton btn btn_hover"></button>
+             <button type="button" class="profile__addButton"></button>
       </section>
-        <section class="section section_narrow">
           <ul class="cards">
           <li class="card">
             <img src="img/argentina.jpg" alt="Аргентина" class="card__img">
             <div class="card__description">
-              <h3 class="card__name"> Аргентина </h3>
-              <button class="card__like btn btn_hover"></button>
+              <h2 class="card__name"> Аргентина </h2>
+              <button type="button" class="card__like"></button>
             </div>
           </li>
           <li class="card">
             <img src="img/canada1.jpg" alt="Канада" class="card__img">
             <div class="card__description">
-              <h3 class="card__name">Канада</h3>
-              <button class="card__like btn btn_hover"></button>
+              <h2 class="card__name">Канада</h2>
+              <button type="button" class="card__like"></button>
             </div>
     
           </li>
           <li class="card">
             <img src="img/france.jpg" alt="Франция" class="card__img">
             <div class="card__description">
-              <h3 class="card__name">Франция</h3>
-              <button class="card__like btn btn_hover"></button>
+              <h2 class="card__name">Франция</h2>
+              <button type="button" class="card__like"></button>
             </div>
     
           </li>
           <li class="card">
             <img src="img/norvegia.jpg" alt="Норвегия" class="card__img">
             <div class="card__description">
-              <h3 class="card__name">Норвегия</h3>
-              <button class="card__like btn btn_hover"></button>
+              <h2 class="card__name">Норвегия</h2>
+              <button type="button" class="card__like"></button>
             </div>
     
           </li>
           <li class="card">
             <img src="img/switcheland.jpg" alt="Швейцария" class="card__img">
             <div class="card__description">
-              <h3 class="card__name">Швейцария</h3>
-              <button class="card__like btn btn_hover"></button>
+              <h2 class="card__name">Швейцария</h2>
+              <button type="button" class="card__like"></button>
             </div>
     
           </li>
           <li class="card">
             <img src="img/usa.jpg" alt="США" class="card__img">
             <div class="card__description">
-              <h3 class="card__name">Соединенные Штаты Америки</h3>
-              <button class="card__like btn btn_hover"></button>
+              <h2 class="card__name">Соединенные Штаты Америки</h2>
+              <button type="button" class="card__like"></button>
             </div>
           </li>
           </ul>
-
-        </section>
-        <section class="popup">
-          <form action="#" class="popup__container">
-            <h3 class="popup__header">Редактировать профиль</h3>
-            <input type="text" class="popup__input popup__input_name">
-            <input type="text" class="popup__input popup__input_job">
-            <input type="submit" class="popup__submit btn btn_hover" value="Сохранить">
-            <span class="close-btn btn btn_hover"></span>
-          </form>
-        </section>
     </main>
-    <footer class="footer section section_narrow">
-      <h4 class="footer__logo">
+    <footer class="footer">
+      <p class="footer__logo">
         &copy; 2022 Mesto Russia
-      </h4>
+      </p>
     </footer>
   </div>
+  <section class="popup">
+    <div class="popup__container">
+      <h3 class="popup__header">Редактировать профиль</h3>
+      <form action="#" name="form" class="form">
+        <input type="text"  name="name" class="form__input form__input_type_name">
+        <input type="text" name="job" class="form__input form__input_type_job">
+        <input type="submit" name="submit" class="form__submit" value="Сохранить">
+      </form>
+      <button type="button" class="popup__close-btn"></>  
+    </div>
+  </section>
 <script src="scripts/index.js"></script>
 </body>
 </html>

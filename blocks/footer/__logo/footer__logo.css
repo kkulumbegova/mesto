@@ -5,7 +5,8 @@
     line-height: 22px;
     letter-spacing: 0em;
     text-align: left;
-    color: #545454;     
+    color: #545454;
+    margin: 25px 0 25px 0;    
 }
 
 @media screen and (max-width: 440px){  

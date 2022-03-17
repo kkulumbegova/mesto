@@ -4,9 +4,12 @@
     font-weight: 400;
     line-height: 22px;
     color: rgba(255, 255, 255, 1);
-    margin-top: 13px;
+    margin: 13px 0 15px 30px;
     grid-area: description;
-    margin-left: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 294px;
   }
 
 @media screen and (max-width: 440px){  
@@ -14,6 +17,8 @@
       font-size: 14px;
       text-align: center;
       margin-left: 0;
+      margin-bottom: 10px;
       justify-self: center;
+      width: 282px;
     }
   }

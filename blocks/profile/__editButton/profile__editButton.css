@@ -9,14 +9,19 @@
     align-self: end;
     margin-left: 18px;
     padding: 0;
+    margin-bottom: 5px;
 
 }
 
-@media screen and (max-width: 440px){
+@media screen and (max-width: 850px){
     .profile__editButton {
       width: 18px;
       height: 18px;
       justify-self: start;
  
     }
+}
+
+.profile__editButton:hover{
+  opacity: 0.6;
 }

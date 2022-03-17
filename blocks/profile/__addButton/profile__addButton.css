@@ -8,12 +8,15 @@
     grid-area: add;
 }
 
-@media screen and (max-width: 440px){  
+@media screen and (max-width: 850px){  
     .profile__addButton {
       background: url(../../../img/AddButtonMobile.svg) no-repeat;
-      background-size: 100%;
       width: 282px;
       height: 50px;
       margin-top: 15px;
     }
+}
+
+.profile__addButton:hover {
+  opacity: 0.6;
 }
