@@ -5,7 +5,7 @@
   box-sizing: border-box;
 }
 
-@media screen and (max-width: 1023px){
+@media screen and (max-width: 1030px){
   .page__container {
     max-width: 100%;
     padding-left: 100px;

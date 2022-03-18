@@ -9,7 +9,7 @@
   width: 358px;
   height: 50px;
   box-sizing: border-box;
-  margin: 0 auto 37px;
+  margin: 25px auto 38px;
   cursor: pointer;
   border: 0;
   padding: 0;
@@ -19,6 +19,10 @@
   .form__submit {
       width: 238px;
       height: 46px;
+      font-size: 14px;
+      line-height: 17px;
+      margin-top: 29px;
+      margin-bottom: 20px;
   }
 }
 
