@@ -5,8 +5,8 @@ let profileName = document.querySelector('.profile__name');
 let profileJob = document.querySelector('.profile__description');
 let inputName = document.querySelector('.form__input_type_name');
 let inputJob = document.querySelector('.form__input_type_job');
-let popupContainer = document.querySelector('.popup__container');
 let submitButton = document.querySelector('.form__submit');
+let form = document.querySelector('.form');
 
 
 
@@ -33,4 +33,4 @@ function formSubmitHandler (evt) {
     closePopUp();
 }
 
-popupContainer.addEventListener('submit', formSubmitHandler);
+form.addEventListener('submit', formSubmitHandler);
