@@ -46,9 +46,30 @@
   <section class="popup popup_edit">
     <div class="popup__container">
       <h3 class="popup__header">Редактировать профиль</h3>
-      <form action="#" name="form" class="form form_edit">
-        <input type="text"  name="name" placeholder="Имя" class="form__input form__input_type_name">
-        <input type="text" name="job" placeholder="Род занятий" class="form__input form__input_type_job">
+      <form action="#" name="user" class="form form_edit" novalidate>
+        <input 
+          type="text" 
+          id="name" 
+          name="name" 
+          class="form__input form__input_type_name"
+          minlength="2"
+          maxlength="40"
+          placeholder="Имя" 
+          required
+        />
+        <span id="name-error" class="form__input-error"></span>
+
+        <input 
+          type="text" 
+          id="job"
+          name="job" 
+          class="form__input form__input_type_job"
+          minlength="2"
+          maxlength="200"
+          placeholder="Род занятий" 
+          required
+        />
+        <span id="job-error" class="form__input-error"></span>
         <button type="submit" name="submit" class="form__submit">Сохранить</button>
       </form>
       <button type="button" class="popup__close-button popup__close-button_edit"></button>  
@@ -57,9 +78,27 @@
   <section class="popup popup_add">
     <div class="popup__container">
       <h3 class="popup__header">Название</h3>
-      <form action="#" name="form" class="form form_add">
-        <input type="text"  name="name" placeholder="Название" class="form__input form__input_type_card-name">
-        <input type="text" name="link" placeholder="Ссылка на картинку" class="form__input form__input_type_link">
+      <form action="#" name="place" class="form form_add" novalidate>
+        <input 
+          type="text" 
+          id="name-card"
+          name="name" 
+          class="form__input form__input_type_card-name"
+          minlength="1"
+          maxlength="30"
+          placeholder="Название" 
+          required
+        />
+        <span id="name-card-error" class="form__input-error"></span>
+        <input 
+          type="url"
+          id="link" 
+          name="link" 
+          class="form__input form__input_type_link"
+          placeholder="Ссылка на картинку" 
+          required
+        />
+        <span id="link-error" class="form__input-error"></span>
         <button type="submit" name="submit" class="form__submit">Сохранить</button>
       </form>
       <button type="button" class="popup__close-button popup__close-button_add"></button>  
@@ -73,5 +112,6 @@
     </div>
   </section>
 <script src="scripts/index.js"></script>
+<script src="scripts/validate.js"></script>
 </body>
 </html>

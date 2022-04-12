@@ -54,6 +54,13 @@ function openPopUp(el) {
 //закрытие попапа(удаление модификатора)//
 function closePopUp(el) {
     el.classList.remove('popup_opened');
+   //при закрытии все инпуты из попапа обнуляются и ошибка скрывается
+   const inputList = Array.from(el.querySelectorAll(`${validationConfig.inputSelector}`));
+   inputList.forEach(input => {
+     hideInputError(input);
+   });
+   const form = el.querySelector(`${validationConfig.formSelector}`);
+   form.reset();
 }
 
 buttonEdit.addEventListener('click', () => {
@@ -72,6 +79,24 @@ buttonAdd.addEventListener('click', () => {
 buttonAddClose.addEventListener('click',() => {
     closePopUp(popupAdd);
 });
+
+//закрытие нажатием на конопку esc
+const closePopupEsc = (evt) => {
+  const currentPopup = document.querySelector('.popup_opened');
+     if(evt.key === 'Escape') {
+       closePopUp(currentPopup);
+     };
+};
+document.addEventListener('keydown', closePopupEsc);
+
+//закрытие нажатием на оверлэй
+const closeOverlay = (evt) => {
+  const currentPopup = document.querySelector('.popup_opened');
+     if(evt.target.classList.contains('popup_opened')) {
+       closePopUp(currentPopup);
+     };
+};
+document.addEventListener('mousedown', closeOverlay);
 
 
 const createCard = (el) => {
