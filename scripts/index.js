@@ -44,50 +44,26 @@ const initialCards = [
 const template = document.querySelector('#card-item-template');
 const image = document.querySelector('.popup__img');
 const imageName = document.querySelector('.popup__card-name');
-
+const buttonSubmit = document.querySelector('.form__submit');
 
 
 //открытие попапа(добавление модификатора)//
 function openPopUp(el) {
     el.classList.add('popup_opened');
+    document.addEventListener('keydown', closePopupEsc);
 }
 //закрытие попапа(удаление модификатора)//
 function closePopUp(el) {
     el.classList.remove('popup_opened');
-   //при закрытии все инпуты из попапа обнуляются и ошибка скрывается
-   const inputList = Array.from(el.querySelectorAll(`${validationConfig.inputSelector}`));
-   inputList.forEach(input => {
-     hideInputError(input);
-   });
-   const form = el.querySelector(`${validationConfig.formSelector}`);
-   form.reset();
+    document.removeEventListener('keydown', closePopupEsc);
 }
-
-buttonEdit.addEventListener('click', () => {
-    inputName.value = profileName.textContent;
-    inputJob.value = profileJob.textContent;
-    openPopUp(popupEdit);
-}); 
-buttonEditClose.addEventListener('click',() => {
-    closePopUp(popupEdit);
-});
-
-
-buttonAdd.addEventListener('click', () => {
-    openPopUp(popupAdd);
-});
-buttonAddClose.addEventListener('click',() => {
-    closePopUp(popupAdd);
-});
-
 //закрытие нажатием на конопку esc
 const closePopupEsc = (evt) => {
-  const currentPopup = document.querySelector('.popup_opened');
-     if(evt.key === 'Escape') {
-       closePopUp(currentPopup);
-     };
+  if(evt.key === 'Escape') {
+   const currentPopup = document.querySelector('.popup_opened');
+    closePopUp(currentPopup);
+  };
 };
-document.addEventListener('keydown', closePopupEsc);
 
 //закрытие нажатием на оверлэй
 const closeOverlay = (evt) => {
@@ -96,14 +72,14 @@ const closeOverlay = (evt) => {
        closePopUp(currentPopup);
      };
 };
-document.addEventListener('mousedown', closeOverlay);
 
 
 const createCard = (el) => {
   const card = template.content.querySelector('.card').cloneNode(true);
+  const cardImg = card.querySelector('.card__img');
   card.querySelector('.card__name').textContent = el.name;
-  card.querySelector('.card__img').src = el.link;
-  card.querySelector('.card__img').alt = el.name;
+  cardImg.src = el.link;
+  cardImg.alt = el.name;
 
   //лайк при нажатии на сердечко//
   card.querySelector('.card__like').addEventListener('click', function(evt) {
@@ -116,23 +92,14 @@ const createCard = (el) => {
       card.remove();
   })
   //попап с картинкой//
-  card.querySelector('.card__img').addEventListener('click', function(evt) {
+  cardImg.addEventListener('click', function(evt) {
       image.src = el.link;
       imageName.textContent = el.name;
       image.alt = el.name;
       openPopUp(popupImg);
   })
-
   return card;
 }
-// применяем функцию по созданию карточки для каждого элемента массива//
-initialCards.map(el => {
-    cardsList.append(createCard(el));
-})
-// закрытие попапа с картинкой//
-buttonImgClose.addEventListener('click', () => {
-  closePopUp(popupImg);
-})
 
 //функция добавления карточки//
 const addCard = (event) => {
@@ -144,13 +111,44 @@ const addCard = (event) => {
   inputCardName.value = '';
   inputLink.value = '';
 }
-formAdd.addEventListener('submit', addCard);
 
 //функция добавления данных пользователя//
-function formSubmitHandler (evt) {
+function submitFormHandler (evt) {
   evt.preventDefault();
   profileName.textContent = inputName.value;
   profileJob.textContent = inputJob.value;
   closePopUp(popupEdit);
 }
-form.addEventListener('submit', formSubmitHandler);
+
+buttonEdit.addEventListener('click', () => {
+  getEmpty(popupEdit);
+  inputName.value = profileName.textContent;
+  inputJob.value = profileJob.textContent;
+  openPopUp(popupEdit);
+}); 
+buttonEditClose.addEventListener('click',() => {
+  closePopUp(popupEdit);
+});
+
+
+buttonAdd.addEventListener('click', () => {
+  getEmpty(popupAdd);  
+  openPopUp(popupAdd);
+});
+buttonAddClose.addEventListener('click',() => {
+  closePopUp(popupAdd);
+});
+
+// закрытие попапа с картинкой//
+buttonImgClose.addEventListener('click', () => {
+  closePopUp(popupImg);
+})
+
+document.addEventListener('mousedown', closeOverlay);
+formAdd.addEventListener('submit', addCard);
+form.addEventListener('submit', submitFormHandler);
+
+// применяем функцию по созданию карточки для каждого элемента массива//
+initialCards.map(el => {
+  cardsList.append(createCard(el));
+})

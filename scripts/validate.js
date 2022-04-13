@@ -5,7 +5,6 @@ const validationConfig = {
     submitButtonSelector: ".form__submit",
     inactiveButtonClass: "form__submit_inactive",
     inputErrorClass: "form__input_type_error",
-    errorClass: "form__input-error_active",
   };
 
 // функция отображения ошибки
@@ -13,15 +12,23 @@ const showInputError = (inputElement, errorMessage) => {
     const errorElement = inputElement.parentNode.querySelector(`#${inputElement.id}-error`);// Находим элемент ошибки внутри функции
     inputElement.classList.add(`${validationConfig.inputErrorClass}`);
     errorElement.textContent = errorMessage;
-    errorElement.classList.add(`${validationConfig.errorClass}`);
 }
 // функция удаления отображения ошибки
 const hideInputError = (inputElement) => {
     const errorElement = inputElement.parentNode.querySelector(`#${inputElement.id}-error`);
     errorElement.textContent = '';
     inputElement.classList.remove(`${validationConfig.inputErrorClass}`);
-    errorElement.classList.remove(`${validationConfig.errorClass}`);
-
+}
+//функция обнуления всех инпутов, ошибка скрывается, кнопка сохранить неактивна
+const getEmpty = (el) => {
+    const inputList = Array.from(el.querySelectorAll(`${validationConfig.inputSelector}`));
+    inputList.forEach(input => {
+      hideInputError(input);
+    });
+    const form = el.querySelector(`${validationConfig.formSelector}`);
+    form.reset();
+    const buttonSubmit = el.querySelector(`${validationConfig. submitButtonSelector}`);
+    buttonSubmit.classList.add(`${validationConfig.inactiveButtonClass}`);
 }
 
 //функция проверка инпута на валидность. При значении фолс - отображение сообщения об ошибке
@@ -48,7 +55,6 @@ const toggleButton = (inputList, buttonElement) => {
         buttonElement.classList.remove(`${validationConfig.inactiveButtonClass}`);
     }
 }
-
 
 //функция проверки на валидность всем полям формы
 const setEventListeners = (formElement) => {
