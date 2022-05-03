@@ -1,3 +1,6 @@
+import Card from "./Card.js";
+import  FormValidator from "./FormValidator.js";
+
 const buttonEdit = document.querySelector('.profile__edit-button');
 const buttonAdd = document.querySelector('.profile__add-button');
 const popupEdit = document.querySelector('.popup_edit');
@@ -41,72 +44,69 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
-const template = document.querySelector('#card-item-template');
+
+const validationConfig = {
+  formSelector: ".form",
+  inputSelector: ".form__input",
+  submitButtonSelector: ".form__submit",
+  inactiveButtonClass: "form__submit_inactive",
+  inputErrorClass: "form__input_type_error",
+};
 const image = document.querySelector('.popup__img');
 const imageName = document.querySelector('.popup__card-name');
 const buttonSubmit = document.querySelector('.form__submit');
 
+const profileEdit = new FormValidator(form, validationConfig);
+const pictureAdd = new FormValidator(formAdd, validationConfig );
 
-//открытие попапа(добавление модификатора)//
+
 function openPopUp(el) {
-    el.classList.add('popup_opened');
-    document.addEventListener('keydown', closePopupEsc);
+  el.classList.add('popup_opened');
+  document.addEventListener('keydown', closePopupEsc);
 }
 //закрытие попапа(удаление модификатора)//
 function closePopUp(el) {
-    el.classList.remove('popup_opened');
-    document.removeEventListener('keydown', closePopupEsc);
+  el.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closePopupEsc);
 }
+
+const popupPictureOpen = (name, link) => {
+image.src = link;
+imageName.textContent = name;
+image.alt = name;
+openPopUp(popupImg);
+};
+
 //закрытие нажатием на конопку esc
 const closePopupEsc = (evt) => {
-  if(evt.key === 'Escape') {
-   const currentPopup = document.querySelector('.popup_opened');
-    closePopUp(currentPopup);
-  };
+if(evt.key === 'Escape') {
+ const currentPopup = document.querySelector('.popup_opened');
+  closePopUp(currentPopup);
+};
 };
 
 //закрытие нажатием на оверлэй
 const closeOverlay = (evt) => {
-  const currentPopup = document.querySelector('.popup_opened');
-     if(evt.target.classList.contains('popup_opened')) {
-       closePopUp(currentPopup);
-     };
+const currentPopup = document.querySelector('.popup_opened');
+   if(evt.target.classList.contains('popup_opened')) {
+     closePopUp(currentPopup);
+   };
 };
 
+// // создаем карточки для каждого элемента массива//
+initialCards.map(data => {
+  const card = new Card(data, '#card-item-template', popupPictureOpen).getCard();
+  cardsList.append(card);
+});
 
-const createCard = (el) => {
-  const card = template.content.querySelector('.card').cloneNode(true);
-  const cardImg = card.querySelector('.card__img');
-  card.querySelector('.card__name').textContent = el.name;
-  cardImg.src = el.link;
-  cardImg.alt = el.name;
 
-  //лайк при нажатии на сердечко//
-  card.querySelector('.card__like').addEventListener('click', function(evt) {
-      const eventTarget = evt.target;
-      eventTarget.classList.toggle('card__like_active');
-  })
-    
-  //удаление карточки//  
-  card.querySelector('.card__delete').addEventListener('click', () => {
-      card.remove();
-  })
-  //попап с картинкой//
-  cardImg.addEventListener('click', function(evt) {
-      image.src = el.link;
-      imageName.textContent = el.name;
-      image.alt = el.name;
-      openPopUp(popupImg);
-  })
-  return card;
-}
 
 //функция добавления карточки//
 const addCard = (event) => {
   event.preventDefault();
-  const newCard = {name: inputCardName.value,
+  const newData = {name: inputCardName.value,
                   link:inputLink.value};
-  cardsList.prepend(createCard(newCard));
+  cardsList.prepend(new Card(newData, '#card-item-template', popupPictureOpen).getCard());
   closePopUp(popupAdd);
   inputCardName.value = '';
   inputLink.value = '';
@@ -121,7 +121,7 @@ function submitFormHandler (evt) {
 }
 
 buttonEdit.addEventListener('click', () => {
-  getEmpty(popupEdit);
+  profileEdit.getEmpty();
   inputName.value = profileName.textContent;
   inputJob.value = profileJob.textContent;
   openPopUp(popupEdit);
@@ -132,7 +132,7 @@ buttonEditClose.addEventListener('click',() => {
 
 
 buttonAdd.addEventListener('click', () => {
-  getEmpty(popupAdd);  
+  pictureAdd.getEmpty();  
   openPopUp(popupAdd);
 });
 buttonAddClose.addEventListener('click',() => {
@@ -147,8 +147,6 @@ buttonImgClose.addEventListener('click', () => {
 document.addEventListener('mousedown', closeOverlay);
 formAdd.addEventListener('submit', addCard);
 form.addEventListener('submit', submitFormHandler);
+profileEdit.enableValidation();
+pictureAdd.enableValidation();
 
-// применяем функцию по созданию карточки для каждого элемента массива//
-initialCards.map(el => {
-  cardsList.append(createCard(el));
-})
