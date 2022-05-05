@@ -13,12 +13,13 @@ class Card {
     this._cardImg.alt = this._data.name;
     this._setListeners();
   }
-  _like = () => {
+  _toggleLike = () => {
     this._cardLike.classList.toggle('card__like_active');
   }
   
   _delete = () => {
     if(this._card) {
+      this._card.remove();
       this._card = null;
     }
   }
@@ -28,7 +29,7 @@ class Card {
       this._delete();
     });
     this._cardLike.addEventListener('click', () => {
-      this._like();
+      this._toggleLike();
     });
     this._cardImg.addEventListener('click', () => {
       this._handleOpenPicture(this._data.name, this._data.link);
