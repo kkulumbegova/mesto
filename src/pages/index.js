@@ -10,7 +10,7 @@ import {
   inputJob,
   form,
   formAdd,
-} from "../components/initial.js";
+} from "../utils/initial.js";
 import Section from "../components/Section.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import PopupWithImage from "../components/PopupWithImg.js";
@@ -18,23 +18,27 @@ import UserInfo from "../components/UserInfo.js";
 
 const profileEdit = new FormValidator(form, validationConfig);
 const pictureAdd = new FormValidator(formAdd, validationConfig);
+const popupImg = new PopupWithImage(".popup_img");
+
 
 const handleClickCard = (name, link) => {
-  const popupImg = new PopupWithImage(".popup_img", name, link);
-  popupImg.open();
-  popupImg.setEventListeners();
+  popupImg.open(name, link);
 };
+
+const newCard = (data) => {
+  const newCard = new Card(
+    data,
+    "#card-item-template",
+    handleClickCard
+  ).getCard();
+  return newCard;
+}
 
 const cardList = new Section(
   {
     items: initialCards,
     renderer: (initialCards) => {
-      const card = new Card(
-        initialCards,
-        "#card-item-template",
-        handleClickCard
-      ).getCard();
-      cardList.addItem(card, "end");
+      cardList.addItem(newCard(initialCards), "end");
     },
   },
   ".cards__list"
@@ -42,27 +46,22 @@ const cardList = new Section(
 cardList.renderItem();
 
 const popupAdd = new PopupWithForm(".popup_add", (formData) => {
-  const newCard = new Card(
-    formData,
-    "#card-item-template",
-    handleClickCard
-  ).getCard();
-  cardList.addItem(newCard, "start");
+  cardList.addItem(newCard(formData), "start");
 });
 
 const newUser = new UserInfo(".profile__name", ".profile__description");
 const popupEdit = new PopupWithForm(".popup_edit", (formData) => {
   newUser.setUserInfo(formData);
 });
-
+const { name, job } = newUser.getUserInfo();
 buttonEdit.addEventListener("click", () => {
-  inputName.value = newUser.getUserInfo().name;
-  inputJob.value = newUser.getUserInfo().job;
+  inputName.value = name;
+  inputJob.value = job;
   popupEdit.open();
 });
 
 buttonAdd.addEventListener("click", () => {
-  pictureAdd.getEmpty();
+  pictureAdd.resetFormState();
   popupAdd.open();
 });
 
@@ -70,3 +69,4 @@ popupAdd.setEventListeners();
 popupEdit.setEventListeners();
 profileEdit.enableValidation();
 pictureAdd.enableValidation();
+popupImg.setEventListeners();

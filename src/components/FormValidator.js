@@ -19,7 +19,7 @@ class FormValidator {
     inputElement.classList.remove(`${this._validationConfig.inputErrorClass}`);
   };
   //функция обнуления всех инпутов, ошибка скрывается, кнопка сохранить неактивна
-  getEmpty = () => {
+  resetFormState = () => {
     const inputList = Array.from(
       this._formElement.querySelectorAll(
         `${this._validationConfig.inputSelector}`
@@ -51,32 +51,32 @@ class FormValidator {
   };
 
   //функция блокировки кнопки, если хотя бы один инпут не валиден
-  _toggleButton = (inputList, buttonElement) => {
-    if (this._hasInvalidInput(inputList)) {
-      buttonElement.classList.add(
+  _toggleButton = () => {
+    if (this._hasInvalidInput(this._inputList)) {
+      this._buttonElement.classList.add(
         `${this._validationConfig.inactiveButtonClass}`
       );
     } else {
-      buttonElement.classList.remove(
+      this._buttonElement.classList.remove(
         `${this._validationConfig.inactiveButtonClass}`
       );
     }
   };
   //функция проверки на валидность всем полям формы
   _setEventListeners = () => {
-    const inputList = Array.from(
+    this._inputList = Array.from(
       this._formElement.querySelectorAll(
         `${this._validationConfig.inputSelector}`
       )
     ); //находим все поля в документе. делаем массив из коллекции
-    const buttonElement = this._formElement.querySelector(
+    this._buttonElement = this._formElement.querySelector(
       `${this._validationConfig.submitButtonSelector}`
     );
-    this._toggleButton(inputList, buttonElement);
-    inputList.forEach((inputElement) => {
+    this._toggleButton();
+    this._inputList.forEach((inputElement) => {
       inputElement.addEventListener("input", () => {
         this._isValid(inputElement);
-        this._toggleButton(inputList, buttonElement);
+        this._toggleButton(this._inputList, this._buttonElement);
       });
     });
   };
@@ -84,7 +84,7 @@ class FormValidator {
     this._formElement.addEventListener("submit", (evt) => {
       evt.preventDefault();
     });
-    this._setEventListeners(this._formElement);
+    this._setEventListeners();
   };
 }
 
