@@ -25,7 +25,7 @@ const handleClickCard = (name, link) => {
   popupImg.open(name, link);
 };
 
-const newCard = (data) => {
+const createNewCard = (data) => {
   const newCard = new Card(
     data,
     "#card-item-template",
@@ -38,7 +38,7 @@ const cardList = new Section(
   {
     items: initialCards,
     renderer: (initialCards) => {
-      cardList.addItem(newCard(initialCards), "end");
+      cardList.addItem(createNewCard(initialCards), "end");
     },
   },
   ".cards__list"
@@ -46,15 +46,17 @@ const cardList = new Section(
 cardList.renderItem();
 
 const popupAdd = new PopupWithForm(".popup_add", (formData) => {
-  cardList.addItem(newCard(formData), "start");
+  cardList.addItem(createNewCard(formData), "start");
 });
 
 const newUser = new UserInfo(".profile__name", ".profile__description");
 const popupEdit = new PopupWithForm(".popup_edit", (formData) => {
   newUser.setUserInfo(formData);
 });
-const { name, job } = newUser.getUserInfo();
+
 buttonEdit.addEventListener("click", () => {
+  profileEdit.resetFormState();
+  const { name, job } = newUser.getUserInfo();
   inputName.value = name;
   inputJob.value = job;
   popupEdit.open();

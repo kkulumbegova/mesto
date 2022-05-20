@@ -20,19 +20,19 @@ class FormValidator {
   };
   //функция обнуления всех инпутов, ошибка скрывается, кнопка сохранить неактивна
   resetFormState = () => {
-    const inputList = Array.from(
+    this._inputList = Array.from(
       this._formElement.querySelectorAll(
         `${this._validationConfig.inputSelector}`
       )
     );
-    inputList.forEach((input) => {
+    this._inputList.forEach((input) => {
       this._hideInputError(input);
     });
     this._formElement.reset();
-    const buttonSubmit = this._formElement.querySelector(
+    this._buttonSubmit = this._formElement.querySelector(
       `${this._validationConfig.submitButtonSelector}`
     );
-    buttonSubmit.classList.add(`${this._validationConfig.inactiveButtonClass}`);
+    this._buttonSubmit.classList.add(`${this._validationConfig.inactiveButtonClass}`);
   };
 
   _isValid = (inputElement) => {
@@ -44,8 +44,8 @@ class FormValidator {
   };
 
   //функция проверки валидны ли ВСЕ инпуты
-  _hasInvalidInput = (inputList) => {
-    return inputList.some((inputElement) => {
+  _hasInvalidInput = () => {
+    return this._inputList.some((inputElement) => {
       return !inputElement.validity.valid;
     });
   };
@@ -68,7 +68,8 @@ class FormValidator {
       this._formElement.querySelectorAll(
         `${this._validationConfig.inputSelector}`
       )
-    ); //находим все поля в документе. делаем массив из коллекции
+    );
+   //находим все поля в документе. делаем массив из коллекции
     this._buttonElement = this._formElement.querySelector(
       `${this._validationConfig.submitButtonSelector}`
     );
