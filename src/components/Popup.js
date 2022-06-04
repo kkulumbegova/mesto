@@ -29,6 +29,6 @@ export default class Popup {
     this._selector
       .querySelector(".popup__close-button")
       .addEventListener("click", this.close.bind(this));
-    
+
   }
 }

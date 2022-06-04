@@ -14,9 +14,9 @@
     <main>
       <section class="profile">
         <div class="profile__avatar"></div>
-          <h1 class="profile__name">Жак-Ив Кусто</h1>
+          <h1 class="profile__name"></h1>
           <button type="button" class="profile__edit-button"></button>
-          <h2 class="profile__description">Исследователь океана</h2>
+          <h2 class="profile__description"></h2>
              <button type="button" class="profile__add-button"></button>
       </section>
       <section class="cards">
@@ -35,7 +35,10 @@
       <img src="#" alt="Изображение" class="card__img">
       <div class="card__description">
         <h2 class="card__name"></h2>
-        <button type="button" class="card__like"></button>
+        <div>
+          <button type="button" class="card__like"></button>
+          <p class="card__likecounter"></p>
+        </div>
       </div>
       <button type="button" class="card__delete"></button>
     </li>
@@ -108,6 +111,33 @@
       <img src="#" alt="Увеличенное изображение" class="popup__img">
       <p class="popup__card-name"></p>
       <button type="button" class="popup__close-button popup__close-button_img"></button>  
+    </div>
+  </section>
+  <section class="popup popup_confirm">
+    <div class="popup__container">
+      <h3 class="popup__header">Вы уверены?</h3>
+      <form action="#" name="confirm" class="form form_confirm" novalidate>
+        <button type="submit" name="submit" class="form__submit">Да</button>
+      </form>
+      <button type="button" class="popup__close-button"></button>  
+    </div>
+  </section>
+  <section class="popup popup_avatar">
+    <div class="popup__container">
+      <h3 class="popup__header">Обновить аватар</h3>
+      <form action="#" name="avatar" class="form form_edit" novalidate>
+        <input 
+          type="url" 
+          id="link" 
+          name="link" 
+          class="form__input form__input_type_link"
+          placeholder="Ссылка на картинку" 
+          required
+        />
+        <span id="link-error" class="form__input-error"></span>
+        <button type="submit" name="submit" class="form__submit">Сохранить</button>
+      </form>
+      <button type="button" class="popup__close-button"></button>  
     </div>
   </section>
 </body>
