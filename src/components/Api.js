@@ -1,28 +1,29 @@
-const handleResponse = (res) => {
-  if (res.ok) {
-    return res.json();
-  }
-  return Promise.reject('Ошибка')
-}
 
 export default class Api {
   constructor({ baseUrl, token }) {
     this.baseUrl = baseUrl;
     this.token = token;
   }
+
+  _handleResponse(res) {
+    if (res.ok) {
+    return res.json();
+    }
+    return Promise.reject('Ошибка')
+  }
   //информация о пользователе
   getInfo() {
     return fetch(`${this.baseUrl}/users/me`, {
       headers: { authorization: this.token }
     })
-      .then(handleResponse)
+      .then(this._handleResponse);
   }
   //получение массива с карточками
   getItems() {
     return fetch(`${this.baseUrl}/cards`, {
       headers: { authorization: this.token }
     })
-      .then(handleResponse);
+    .then(this._handleResponse);
   }
   //ожидание исполнения двух промисов - с данными о пользователе и карточками
   getAllNeededData() {
@@ -41,7 +42,7 @@ export default class Api {
         about: formData.job
       })
     })
-      .then(handleResponse);
+    .then(this._handleResponse);
   }
   addCard(formData) {
     return fetch(`${this.baseUrl}/cards`, {
@@ -55,7 +56,7 @@ export default class Api {
         link: formData.link
       })
     })
-      .then(handleResponse);
+    .then(this._handleResponse);
   }
 
   deleteCard(id) {
@@ -66,7 +67,7 @@ export default class Api {
         'Content-Type': 'application/json'
       },
     })
-      .then(handleResponse)
+    .then(this._handleResponse);
   }
   addLike(id) {
     return fetch(`${this.baseUrl}/cards/likes/${id}`, {
@@ -76,7 +77,7 @@ export default class Api {
         'Content-Type': 'application/json'
       },
     })
-      .then(handleResponse)
+    .then(this._handleResponse);
   }
 
   deleteLike(id) {
@@ -87,8 +88,9 @@ export default class Api {
         'Content-Type': 'application/json'
       },
     })
-      .then(handleResponse)
+    .then(this._handleResponse);
   }
+
   changeLikeStatus(id, isLiked) {
     if (isLiked) {
       return this.addLike(id)
@@ -96,6 +98,7 @@ export default class Api {
       return this.deleteLike(id)
     }
   }
+
   changeAvatar(link) {
     return fetch(`${this.baseUrl}/users/me/avatar`, {
       method: 'PATCH',
@@ -107,6 +110,6 @@ export default class Api {
         avatar: link,
       })
     })
-      .then(handleResponse);
+    .then(this._handleResponse);
   }
 }

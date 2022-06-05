@@ -7,8 +7,12 @@ import {
   buttonAdd,
   form,
   formAdd,
-  buttonAvatar
+  buttonAvatar,
+  userAvatar,
+  userName,
+  userDescription
 } from "../utils/initial.js";
+import renderLoading from "../utils/utils.js";
 import Section from "../components/Section.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import PopupWithImage from "../components/PopupWithImg.js";
@@ -31,24 +35,21 @@ const handleFormSubmitAvatar = (formData) => {
   renderLoading(true, '.popup_avatar');
  api.changeAvatar(formData)
   .then((res) => {
-     document.querySelector('.profile__avatar').style.backgroundImage = `url("${res.avatar}")`;
+     userAvatar.style.backgroundImage = `url("${res.avatar}")`;
+     popupAvatar.close()
   })
   .catch((err) => {
     console.log(err);
   })
   .finally(() => {
     renderLoading(false, '.popup_avatar');
-    popupAvatar.close()
   });
 }
 const popupAvatar = new PopupWithAvatar('.popup_avatar', handleFormSubmitAvatar);
 
-
-
 const handleClickCard = (name, link) => {
   popupImg.open(name, link);
 };
-
 
 const handleDeleteClick = (card) => {
   popupConfirm.setSubmitHandler({
@@ -64,13 +65,26 @@ const handleDeleteClick = (card) => {
   })
 }
 
+const changeLikeStatus = (id, isLiked) => {
+  return api.changeLikeStatus(id, isLiked);
+}
+
+const handleLike = (card) => {
+  changeLikeStatus(card.id(), !card.isLiked())
+    .then((data) => {
+      card.setLikesInfo({ ...data });
+    })
+    .catch((err) => {
+      console.log(`Ошибка изменения статуса лайка: ${err}`);
+    })
+};
 
 const createNewCard = (data) => {
   const newCard = new Card(
     {data: data,
     currentId: userId},
     "#card-item-template",
-    {handleClickCard, changeLikeStatus, handleDeleteClick}
+    {handleClickCard, handleDeleteClick, handleLike}
   ).getCard();
   return newCard;
 }
@@ -80,14 +94,13 @@ const popupEdit = new PopupWithForm(".popup_edit", (formData) => {
   api.editProfile(formData)
   .then(() => {
     newUser.setUserInfo(formData);
+    popupEdit.close();
   })
   .catch((err) => console.log(err))
   .finally(() => {
     renderLoading(false, '.popup_edit');
-    popupEdit.close()
   })
 });
-
 
 api.getAllNeededData()
 .then(data => {
@@ -103,23 +116,23 @@ api.getAllNeededData()
     },
     ".cards__list"
   );
-  cardList.renderItem();
-  document.querySelector('.profile__name').textContent = dataFromGetInfo.name;
-  document.querySelector('.profile__description').textContent = dataFromGetInfo.about;
-  document.querySelector('.profile__avatar').style.backgroundImage = `url(${dataFromGetInfo.avatar})`;
+  cardList.renderItems();
+  userName.textContent = dataFromGetInfo.name;
+  userDescription.textContent = dataFromGetInfo.about;
+  userAvatar.style.backgroundImage = `url(${dataFromGetInfo.avatar})`;
  
   const popupAdd = new PopupWithForm(".popup_add", (formData) => {
    renderLoading(true, '.popup_add');
    api.addCard(formData)
     .then(formData => {
-    cardList.addItem(createNewCard({data: formData, currentId: userId}), "start")
+    cardList.addItem(createNewCard({data: formData, currentId: userId}), "start");
+    popupAdd.close();
     })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
       renderLoading(false, '.popup_add');
-      popupAdd.close()
     });
   });
   popupAdd.setEventListeners();
@@ -129,36 +142,7 @@ api.getAllNeededData()
   });
 });
 
-
-const changeLikeStatus = (id, isLiked) => {
-  return api.changeLikeStatus(id, isLiked);
-}
-
-// const handleSubmitForm = (card, id) => {
-// return api.deleteCard(id)
-//  .then(() => {
-//    card.remove();
-//    card = null;
-//  })
-//  .catch((err) => {
-//    console.log(err);
-//  });
-// }
 const popupConfirm = new PopupWithSubmit('.popup_confirm')
-
-
-
-
-const renderLoading = (isLoading, popupSelector) => {
-  if(isLoading) {
-    document.querySelector(popupSelector).querySelector('.form__submit').textContent = 'Сохранение...'
-  } else {
-    document.querySelector(popupSelector).querySelector('.form__submit').textContent = 'Сохранить'
-  }
-}
-
-
-
 
 buttonAvatar.addEventListener(('click'), () => popupAvatar.open());
 buttonEdit.addEventListener("click", () => {

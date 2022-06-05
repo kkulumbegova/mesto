@@ -13,7 +13,11 @@ export default class UserInfo {
   }
 
   setUserInfo(data) {
-    this._nameSelector.textContent = data.name;
-    this._infoSelector.textContent = data.job;
+    if(data.name) {
+      this._nameSelector.textContent = data.name;
+    };
+    if(data.job) {
+      this._infoSelector.textContent = data.job;
+    };
   }
 }

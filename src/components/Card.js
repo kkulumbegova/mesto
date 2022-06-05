@@ -1,13 +1,13 @@
 
 class Card {
-  constructor({ data }, cardSelector, { handleClickCard, changeLikeStatus, handleDeleteClick }) {
+  constructor({ data }, cardSelector, { handleClickCard, handleDeleteClick, handleLike }) {
     this._data = data.data;
     this._currentId = data.currentId;
     this._cardSelector = cardSelector;
     this._handleClickCard = handleClickCard;
     this._likes = data.data.likes;
-    this._changeLikeStatus = changeLikeStatus;
     this._handleDeleteClick = handleDeleteClick;
+    this._handleLike = handleLike;
   }
 
   _createCard = () => {
@@ -31,21 +31,10 @@ class Card {
     this.isLikeActive();
     this._setListeners();
   };
-  
+
   id = () => {
     return this._data._id;
   }
-
-  _handleLike = () => {
-    const id = this._data._id;
-    this._changeLikeStatus(id, !this.isLiked())
-      .then((data) => {
-        this.setLikesInfo({ ...data });
-      })
-      .catch((err) => {
-        console.log(`Ошибка изменения статуса лайка: ${err}`);
-      })
-  };
 
   setLikesInfo = (data) => {
     this._likes = data.likes;
@@ -70,16 +59,16 @@ class Card {
     this._card.querySelector(".card__likecounter").textContent = this._likes.length;
     this._cardLike.classList.toggle("card__like_active");
   }
- delete = () => {
-   this._card.remove();
-   this._card = null;
- }
+  delete = () => {
+    this._card.remove();
+    this._card = null;
+  }
   _setListeners = () => {
     this._cardDeleteButton.addEventListener("click", () => {
       this._handleDeleteClick(this);
     });
     this._cardLike.addEventListener("click", () => {
-      this._handleLike()
+      this._handleLike(this);
     });
     this._cardImg.addEventListener("click", () => {
       this._handleClickCard(this._data.name, this._data.link);
