@@ -99,7 +99,7 @@ export default class Api {
     }
   }
 
-  changeAvatar(link) {
+  changeAvatar(formData) {
     return fetch(`${this.baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       headers: {
@@ -107,7 +107,7 @@ export default class Api {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        avatar: link,
+        avatar: formData.avatar_link,
       })
     })
     .then(this._handleResponse);
